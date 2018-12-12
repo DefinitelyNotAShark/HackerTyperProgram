@@ -23,6 +23,8 @@ namespace TyperThing
                 input = Console.ReadKey().KeyChar;
                 int prevTop = Console.CursorTop;
                 int prevLeft = Console.CursorLeft;
+                if (input == 'q')
+                    break;
 
                 if (i < thisString.Length - 1)
                 {
