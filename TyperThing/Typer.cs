@@ -8,12 +8,10 @@ namespace TyperThing
 {
     class Typer : Text
     {
-        private ConsoleKey inputKey;
-
+        private int input;
         private int index = 1;//this is so we can fake number our code
         private Text myText = new Text();
         private string thisString;
-        private int speed = 1;//increases each time you press the speed button decreases everytime you press the slow button. Can't be less than 1. Starts out as 1
 
         public void GetInput()
         {
@@ -29,41 +27,28 @@ namespace TyperThing
 
             for (; ; )//writes out input until you type in something to make it close
             {
-                inputKey = Console.ReadKey(true).Key;//the true in here prevents the key from showing on the console.
-           
-                if(inputKey == ConsoleKey.Enter && speed < 10)//speed can't be more than 10
+                input = Console.ReadKey(true).KeyChar;//the true in here prevents the key from showing on the console.
+
+                int prevTop = Console.CursorTop;
+                int prevLeft = Console.CursorLeft;
+
+                if (i < thisString.Length - 1)
                 {
-                    speed++;
+                    i++;
                 }
-                else if(inputKey == ConsoleKey.Backspace && speed > 1)//speed can't be less than 1
+
+                else
                 {
-                    speed--;
+                    EraseLastChar();
+                    PrintMessage();
+                    WriteOutANumber();//give us a number in front of our code. Make it look more dev-y
+                    GetInput();
                 }
+                Console.Write(thisString[i]);
 
-
-                for (int a = 0; a < speed; a++)//prints out as much of our message as speed allows us to do
+                if (Console.CursorTop > prevTop)//delete the user input at end of line
                 {
-                    int prevTop = Console.CursorTop;
-                    int prevLeft = Console.CursorLeft;
-
-                    if (i < thisString.Length)
-                    {
-                        Console.Write(thisString[i]);
-                        i++;
-                    }
-
-                    else
-                    {
-                        PrintMessage();
-                        WriteOutANumber();//give us a number in front of our code. Make it look more dev-y
-                        GetInput();
-                        break;
-                    }
-
-                    if (Console.CursorTop > prevTop)//delete the user input at end of line
-                    {
-                        WriteOutANumber();
-                    }
+                    WriteOutANumber();
                 }
             }
         }
@@ -75,10 +60,6 @@ namespace TyperThing
 
         private void WriteOutANumber()//make it so our numbers are a different color
         {
-            if(index > 1000)//reset index if too big
-            {
-                index = 0;
-            }
             Console.ForegroundColor = ConsoleColor.Cyan;
             //Console.Write(" \n");//after we print, we keep numbering?
             Console.Write(index + "  ");//number our code
