@@ -10,6 +10,7 @@ namespace TyperThing
     {
         static void Main(string[] args)
         {
+            Console.Title = "Type_Like_A_Hacker";
             Console.ForegroundColor = ConsoleColor.Green;
             Typer typer = new Typer();
             typer.GetInput();
